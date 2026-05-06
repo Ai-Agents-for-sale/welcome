@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Zero Work AI - תפריט ראשי</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f0f4fb;
+    --surface:   #ffffff;
+    --surface2:  #e8edf8;
+    --border:    #c8d4e8;
+    --text:      #0D1B4B;
+    --hint:      #4a6080;
+    --text-dim:  #8a9ab8;
+    --accent:    #1a3a8f;
+    --accent-soft: rgba(26,58,143,0.09);
+    --accent-glow: rgba(26,58,143,0.15);
+    --green:     #1a7a4a;
+    --green-soft: rgba(26,122,74,0.10);
+    --radius:    14px;
+    --radius-sm: 9px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html, body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    overscroll-behavior: none;
+    min-height: 100vh;
+  }
+
+  /* ══════════════════════════════════
+     SCREENS
+  ══════════════════════════════════ */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ══════════════════════════════════
+     HEADER
+  ══════════════════════════════════ */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(240,244,251,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 18px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .header-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(26,58,143,0.4);
+    flex-shrink: 0;
+  }
+
+  .header-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .header-badge {
+    margin-right: auto;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(26,58,143,0.15);
+  }
+
+  .back-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: opacity 0.15s, transform 0.12s;
+  }
+
+  .back-btn:active { transform: scale(0.96); opacity: 0.85; }
+
+  /* ══════════════════════════════════
+     INTRO
+  ══════════════════════════════════ */
+  .intro {
+    padding: 22px 18px 8px;
+    text-align: center;
+  }
+
+  .intro-emoji {
+    font-size: 36px;
+    margin-bottom: 6px;
+  }
+
+  .intro-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .intro-subtitle {
+    font-size: 13px;
+    color: var(--hint);
+    line-height: 1.55;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* ══════════════════════════════════
+     MAIN
+  ══════════════════════════════════ */
+  .main {
+    padding: 16px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* ══════════════════════════════════
+     CATEGORY CARD
+  ══════════════════════════════════ */
+  .cat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.12s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cat-card:active {
+    transform: scale(0.985);
+    opacity: 0.92;
+    border-color: var(--accent);
+  }
+
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(26,58,143,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+  }
+
+  .cat-icon.green { background: var(--green-soft); }
+  .cat-icon.purple { background: rgba(124,58,143,0.10); }
+  .cat-icon.orange { background: rgba(217,119,39,0.10); }
+
+  .cat-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cat-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .cat-desc {
+    font-size: 12px;
+    color: var(--hint);
+    line-height: 1.45;
+  }
+
+  .cat-arrow {
+    color: var(--text-dim);
+    font-size: 22px;
+    flex-shrink: 0;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  /* ══════════════════════════════════
+     SUBMENU
+  ══════════════════════════════════ */
+  .submenu-header {
+    padding: 18px 18px 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .submenu-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
+  }
+
+  .submenu-icon.green { background: var(--green-soft); }
+  .submenu-icon.purple { background: rgba(124,58,143,0.10); }
+  .submenu-icon.orange { background: rgba(217,119,39,0.10); }
+
+  .submenu-titles {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .submenu-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .submenu-subtitle {
+    font-size: 12px;
+    color: var(--hint);
+    margin-top: 2px;
+  }
+
+  /* ══════════════════════════════════
+     ITEM (sub-option)
+  ══════════════════════════════════ */
+  .item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.12s, border-color 0.2s;
+  }
+
+  .item:active {
+    transform: scale(0.985);
+    opacity: 0.92;
+    border-color: var(--accent);
+  }
+
+  .item-emoji {
+    font-size: 22px;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .item-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1px;
+  }
+
+  .item-desc {
+    font-size: 11.5px;
+    color: var(--hint);
+    line-height: 1.4;
+  }
+
+  .item-arrow {
+    color: var(--text-dim);
+    font-size: 20px;
+    flex-shrink: 0;
+    font-weight: 300;
+    line-height: 1;
+  }
+
+  /* ══════════════════════════════════
+     AI IMAGE SCREEN
+  ══════════════════════════════════ */
+  .ai-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ai-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ai-label-required {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent-soft);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  .ai-label-optional {
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--surface2);
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+
+  .ai-hint {
+    font-size: 11.5px;
+    color: var(--hint);
+    line-height: 1.5;
+  }
+
+  .ai-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 13px;
+    font-size: 14px;
+    font-family: 'Heebo', sans-serif;
+    color: var(--text);
+    resize: none;
+    outline: none;
+    min-height: 110px;
+    line-height: 1.6;
+    transition: border-color 0.2s;
+    caret-color: var(--accent);
+    direction: rtl;
+  }
+
+  .ai-textarea::placeholder { color: var(--hint); }
+  .ai-textarea:focus { border-color: rgba(26,58,143,0.4); }
+
+  .ai-upload-btn {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius-sm);
+    padding: 18px 12px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--hint);
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.12s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ai-upload-btn:active {
+    transform: scale(0.985);
+    opacity: 0.9;
+    border-color: var(--accent);
+  }
+
+  .ai-upload-btn .upload-icon {
+    font-size: 22px;
+  }
+
+  .ai-image-preview {
+    display: none;
+    position: relative;
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-image-preview.visible { display: flex; }
+
+  .ai-image-preview img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .ai-image-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--hint);
+  }
+
+  .ai-image-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ai-image-remove {
+    background: rgba(180,30,30,0.08);
+    color: #b41e1e;
+    border: 1px solid rgba(180,30,30,0.2);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Heebo', sans-serif;
+  }
+
+  .ai-submit-btn {
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Heebo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: var(--radius);
+    padding: 15px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.12s;
+    margin-top: 6px;
+  }
+
+  .ai-submit-btn:active { transform: scale(0.985); opacity: 0.9; }
+
+  .ai-submit-btn:disabled {
+    background: var(--text-dim);
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* ══════════════════════════════════
+     STATES (loading / success)
+  ══════════════════════════════════ */
+  .state {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: 40px 24px;
+  }
+
+  .state.active { display: flex; }
+
+  .state-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--green-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    margin-bottom: 16px;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .state-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .state-sub {
+    font-size: 13px;
+    color: var(--hint);
+    line-height: 1.6;
+    max-width: 320px;
+    white-space: pre-wrap;
+  }
+
+  .spinner {
+    width: 44px;
+    height: 44px;
+    border: 3.5px solid var(--surface2);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.85s linear infinite;
+    margin-bottom: 18px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ══════════════════════════════════
+     CATEGORY COLOR ACCENTS
+  ══════════════════════════════════ */
+  .accent-blue   .cat-icon, .accent-blue   .submenu-icon { background: var(--accent-soft); }
+  .accent-green  .cat-icon, .accent-green  .submenu-icon { background: var(--green-soft); }
+  .accent-purple .cat-icon, .accent-purple .submenu-icon { background: rgba(124,58,143,0.10); }
+  .accent-orange .cat-icon, .accent-orange .submenu-icon { background: rgba(217,119,39,0.10); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SCREEN: MAIN MENU
+══════════════════════════════════════ -->
+<div class="screen active" id="screen-main">
+  <div class="header">
+    <span class="header-dot"></span>
+    <span class="header-title">סוכן סושיאל</span>
+    <span class="header-badge">תפריט ראשי</span>
+  </div>
+
+  <div class="intro">
+    <div class="intro-emoji">👋</div>
+    <div class="intro-title">מה תרצה לעשות היום?</div>
+    <div class="intro-subtitle">בחר קטגוריה כדי להתחיל</div>
+  </div>
+
+  <div class="main">
+
+    <!-- יצירת תוכן -->
+    <div class="cat-card accent-blue" onclick="openCategory('content')">
+      <div class="cat-icon">✍️</div>
+      <div class="cat-body">
+        <div class="cat-title">יצירת תוכן</div>
+        <div class="cat-desc">פוסטים, סטוריז, תמונות AI</div>
+      </div>
+      <div class="cat-arrow">‹</div>
+    </div>
+
+    <!-- עריכת וידאו -->
+    <div class="cat-card accent-purple" onclick="openCategory('video-edit')">
+      <div class="cat-icon purple">🎬</div>
+      <div class="cat-body">
+        <div class="cat-title">עריכת וידאו</div>
+        <div class="cat-desc">עריכת סרטונים רגילים וסרטונים ארוכים מיוטיוב</div>
+      </div>
+      <div class="cat-arrow">‹</div>
+    </div>
+
+    <!-- העלאות -->
+    <div class="cat-card accent-green" onclick="openCategory('uploads')">
+      <div class="cat-icon green">📤</div>
+      <div class="cat-body">
+        <div class="cat-title">העלאות</div>
+        <div class="cat-desc">העלאת סרטון לפלטפורמות והחלפת פלטפורמה</div>
+      </div>
+      <div class="cat-arrow">‹</div>
+    </div>
+
+    <!-- כלים ושירותים -->
+    <div class="cat-card accent-orange" onclick="openCategory('tools')">
+      <div class="cat-icon orange">🛠️</div>
+      <div class="cat-body">
+        <div class="cat-title">כלים ושירותים</div>
+        <div class="cat-desc">תמלול, קישורים, דוחות, הגדרות</div>
+      </div>
+      <div class="cat-arrow">‹</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: יצירת תוכן
+══════════════════════════════════════ -->
+<div class="screen" id="screen-content">
+  <div class="header">
+    <button class="back-btn" onclick="goBack()">› חזרה</button>
+    <span class="header-title" style="margin-right:auto;">יצירת תוכן</span>
+  </div>
+
+  <div class="submenu-header accent-blue">
+    <div class="submenu-icon">✍️</div>
+    <div class="submenu-titles">
+      <div class="submenu-title">יצירת תוכן</div>
+      <div class="submenu-subtitle">בחר את סוג התוכן שתרצה ליצור</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="item" onclick="sendAction('regular_post')">
+      <div class="item-emoji">📝</div>
+      <div class="item-body">
+        <div class="item-title">פוסט רגיל</div>
+        <div class="item-desc">פוסט יחיד עם תמונה אחת</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('carousal_post')">
+      <div class="item-emoji">🎠</div>
+      <div class="item-body">
+        <div class="item-title">פוסט קרוסלה</div>
+        <div class="item-desc">פוסט עם מספר סלייידים</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('story')">
+      <div class="item-emoji">📸</div>
+      <div class="item-body">
+        <div class="item-title">סטורי</div>
+        <div class="item-desc">סטורי לאינסטגרם</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="openAiImageScreen()">
+      <div class="item-emoji">🎨</div>
+      <div class="item-body">
+        <div class="item-title">תמונת AI</div>
+        <div class="item-desc">יצירת תמונה באמצעות בינה מלאכותית</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: עריכת וידאו
+══════════════════════════════════════ -->
+<div class="screen" id="screen-video-edit">
+  <div class="header">
+    <button class="back-btn" onclick="goBack()">› חזרה</button>
+    <span class="header-title" style="margin-right:auto;">עריכת וידאו</span>
+  </div>
+
+  <div class="submenu-header accent-purple">
+    <div class="submenu-icon purple">🎬</div>
+    <div class="submenu-titles">
+      <div class="submenu-title">עריכת וידאו</div>
+      <div class="submenu-subtitle">בחר את סוג העריכה שאתה צריך</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="item" onclick="sendAction('regular_video_editing')">
+      <div class="item-emoji">🎞️</div>
+      <div class="item-body">
+        <div class="item-title">עריכת סרטון רגיל</div>
+        <div class="item-desc">עריכת פרימיום מסרטון מהדרופבוקס שלך</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('long_video_editing')">
+      <div class="item-emoji">📹</div>
+      <div class="item-body">
+        <div class="item-title">עריכת סרטון ארוך / יוטיוב</div>
+        <div class="item-desc">קליפים קצרים מסרטון יוטיוב</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: העלאות
+══════════════════════════════════════ -->
+<div class="screen" id="screen-uploads">
+  <div class="header">
+    <button class="back-btn" onclick="goBack()">› חזרה</button>
+    <span class="header-title" style="margin-right:auto;">העלאות</span>
+  </div>
+
+  <div class="submenu-header accent-green">
+    <div class="submenu-icon green">📤</div>
+    <div class="submenu-titles">
+      <div class="submenu-title">העלאות</div>
+      <div class="submenu-subtitle">העלאת סרטון לפלטפורמות</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="item" onclick="sendAction('upload_video')">
+      <div class="item-emoji">⬆️</div>
+      <div class="item-body">
+        <div class="item-title">העלאת סרטון</div>
+        <div class="item-desc">העלאת סרטון מהתיקייה לפלטפורמות הסושיאל</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('replace_platform')">
+      <div class="item-emoji">🔄</div>
+      <div class="item-body">
+        <div class="item-title">החלפת פלטפורמה</div>
+        <div class="item-desc">שינוי הפלטפורמה שאליה מועלה התוכן</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: כלים ושירותים
+══════════════════════════════════════ -->
+<div class="screen" id="screen-tools">
+  <div class="header">
+    <button class="back-btn" onclick="goBack()">› חזרה</button>
+    <span class="header-title" style="margin-right:auto;">כלים ושירותים</span>
+  </div>
+
+  <div class="submenu-header accent-orange">
+    <div class="submenu-icon orange">🛠️</div>
+    <div class="submenu-titles">
+      <div class="submenu-title">כלים ושירותים</div>
+      <div class="submenu-subtitle">כלים נוספים לניהול הסושיאל שלך</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="item" onclick="sendAction('video_transcribe')">
+      <div class="item-emoji">📝</div>
+      <div class="item-body">
+        <div class="item-title">תמלול סרטון</div>
+        <div class="item-desc">תמלול אוטומטי של סרטונים</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('drive_links')">
+      <div class="item-emoji">🔗</div>
+      <div class="item-body">
+        <div class="item-title">קישורי דרייב</div>
+        <div class="item-desc">קישורים מהירים לתיקיות הדרייב שלך</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('competitors_report')">
+      <div class="item-emoji">📊</div>
+      <div class="item-body">
+        <div class="item-title">דוח מתחרים</div>
+        <div class="item-desc">ניתוח מתחרים באינסטגרם</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+    <div class="item" onclick="sendAction('settings')">
+      <div class="item-emoji">⚙️</div>
+      <div class="item-body">
+        <div class="item-title">הגדרות ואיזור אישי</div>
+        <div class="item-desc">ניהול ההגדרות והעדפות שלך</div>
+      </div>
+      <div class="item-arrow">‹</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCREEN: AI IMAGE
+══════════════════════════════════════ -->
+<div class="screen" id="screen-ai-image">
+  <div class="header">
+    <button class="back-btn" onclick="goBackFromAi()">› חזרה</button>
+    <span class="header-title" style="margin-right:auto;">תמונת AI</span>
+  </div>
+
+  <div class="submenu-header accent-blue">
+    <div class="submenu-icon">🎨</div>
+    <div class="submenu-titles">
+      <div class="submenu-title">יצירת תמונת AI</div>
+      <div class="submenu-subtitle">תאר את התמונה שתרצה ליצור</div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- Prompt section -->
+    <div class="ai-section">
+      <div class="ai-label">
+        תיאור התמונה
+        <span class="ai-label-required">חובה</span>
+      </div>
+      <div class="ai-hint">תאר במילים את התמונה שתרצה שה-AI ייצור עבורך. ככל שתפרט יותר, התוצאה תהיה מדויקת יותר.</div>
+      <textarea
+        class="ai-textarea"
+        id="aiPrompt"
+        placeholder="לדוגמה: אדם יושב על ספסל בפארק, סגנון רומנטי, תאורה רכה של שעת זריחה..."
+        oninput="checkAiSubmitButton()"></textarea>
+    </div>
+
+    <!-- Reference image section -->
+    <div class="ai-section">
+      <div class="ai-label">
+        תמונת התייחסות
+        <span class="ai-label-optional">לא חובה</span>
+      </div>
+      <div class="ai-hint">אם יש לך תמונה שתרצה שה-AI יערוך או יתבסס עליה - העלה אותה כאן.</div>
+
+      <input type="file" id="aiImageInput" accept="image/*" style="display:none;" onchange="onAiImageUpload(event)">
+
+      <div class="ai-upload-btn" id="aiUploadBtn" onclick="document.getElementById('aiImageInput').click()">
+        <div class="upload-icon">📎</div>
+        <div>לחץ כאן להעלאת תמונה</div>
+      </div>
+
+      <div class="ai-image-preview" id="aiImagePreview">
+        <img id="aiImageImg" src="" alt="תמונה שהועלתה">
+        <div class="ai-image-info">
+          <span class="ai-image-name" id="aiImageName"></span>
+          <button class="ai-image-remove" onclick="removeAiImage()">הסר</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="ai-submit-btn" id="aiSubmitBtn" onclick="submitAiImage()" disabled>
+      צור תמונה
+    </button>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     STATES: loading / success / error
+══════════════════════════════════════ -->
+<div class="state" id="loading-state">
+  <div class="spinner"></div>
+  <div class="state-title">שולח את הבקשה...</div>
+  <div class="state-sub">רק רגע</div>
+</div>
+
+<div class="state" id="success-state">
+  <div class="state-icon">✓</div>
+  <div class="state-title">הבקשה נשלחה!</div>
+  <div class="state-sub">הסוכן יתחיל לטפל בבקשה שלך עכשיו.
+
+החלק את המסך למטה כדי לחזור לצ'אט</div>
+</div>
+
+<div class="state" id="error-state">
+  <div class="state-icon" style="background:rgba(217,119,39,0.10); color:#d97727;">!</div>
+  <div class="state-title">משהו השתבש</div>
+  <div class="state-sub">לא הצלחנו לשלוח את הבקשה. נסה שוב או חזור לצ'אט.</div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// TELEGRAM
+// ══════════════════════════════════════
+var tg = window.Telegram && window.Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
+
+// ══════════════════════════════════════
+// CLIENT INFO (from Telegram WebApp SDK)
+// ══════════════════════════════════════
+function getClientInfo() {
+  var info = { chatId: '', clientName: '' };
+
+  // ניסיון לקבל מ-Telegram WebApp SDK
+  if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    var user = tg.initDataUnsafe.user;
+    info.chatId = String(user.id || '');
+    var firstName = user.first_name || '';
+    var lastName = user.last_name || '';
+    info.clientName = (firstName + ' ' + lastName).trim();
+  }
+
+  // fallback - ניסיון מ-URL params
+  var params = new URLSearchParams(window.location.search);
+  if (!info.chatId) info.chatId = params.get('chatId') || '';
+  if (!info.clientName) info.clientName = params.get('clientName') || '';
+
+  return info;
+}
+
+// ══════════════════════════════════════
+// WEBHOOK URLs
+// ══════════════════════════════════════
+var WEBHOOKS = {
+  regular_video_editing:  'https://aiagentsforsale.app.n8n.cloud/webhook/7d4d5731-f64f-4d47-a1a7-5eea656c3a9c',
+  long_video_editing:     'https://aiagentsforsale.app.n8n.cloud/webhook/3bd67ff8-7183-45c8-9255-a29a6faa3f82',
+  upload_video:           'https://aiagentsforsale.app.n8n.cloud/webhook/1faeaa2b-2c54-4310-bc9c-0d2ba7f3ec5a',
+  ai_image:               'https://aiagentsforsale.app.n8n.cloud/webhook/476bc288-afd8-430a-a186-5c7667325b77',
+  drive_links:            'https://aiagentsforsale.app.n8n.cloud/webhook/bb14412c-b9bf-4904-a289-1e2c114d2fdd',
+  video_transcribe:       'https://aiagentsforsale.app.n8n.cloud/webhook/e00f9980-294e-4c68-b2db-40e354a24060',
+  replace_platform:       'https://aiagentsforsale.app.n8n.cloud/webhook/42978a38-c985-4843-ac7e-987fa4ee2c3c',
+  settings:               'https://aiagentsforsale.app.n8n.cloud/webhook/b056fb10-5e31-48bc-9711-d5938ce2312c',
+  competitors_report:     'https://aiagentsforsale.app.n8n.cloud/webhook/fbcfa0bd-6f8c-4d47-946f-ce9269dac333'
+};
+
+var AI_IMAGE_INTERNAL_WEBHOOK = 'https://aiagentsforsale.app.n8n.cloud/webhook/686ac9bf-4011-447c-8288-d477d60e7dab';
+
+// ══════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════
+var screenStack = ['main'];
+
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.state').forEach(function(s) { s.classList.remove('active'); });
+  var el = document.getElementById('screen-' + name);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showState(name) {
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.state').forEach(function(s) { s.classList.remove('active'); });
+  var el = document.getElementById(name + '-state');
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function openCategory(name) {
+  if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+  screenStack.push(name);
+  showScreen(name);
+}
+
+function goBack() {
+  if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+  if (screenStack.length > 1) {
+    screenStack.pop();
+    showScreen(screenStack[screenStack.length - 1]);
+  } else {
+    showScreen('main');
+  }
+}
+
+// ══════════════════════════════════════
+// SEND ACTION (regular actions, not AI image)
+// ══════════════════════════════════════
+function sendAction(action) {
+  if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+  showState('loading');
+
+  var url = WEBHOOKS[action];
+  if (!url) {
+    setTimeout(function() { showState('error'); }, 600);
+    return;
+  }
+
+  var info = getClientInfo();
+  var body = buildBodyForAction(action, info);
+
+  // שליחה כ-POST (כל הוובהוקים POST חוץ מ-replace_platform ו-competitors_report שהם GET)
+  var method = (action === 'replace_platform' || action === 'competitors_report') ? 'GET' : 'POST';
+
+  if (method === 'GET') {
+    sendViaImage(url, body);
+  } else {
+    sendViaPost(url, body);
+  }
+}
+
+function buildBodyForAction(action, info) {
+  switch (action) {
+    case 'regular_video_editing':
+      return {
+        'chat id':      info.chatId,
+        'סוג עריכה':     'רגיל',
+        'סוג טריגר':     'telegram'
+      };
+    case 'long_video_editing':
+      return {
+        'chat id':      info.chatId,
+        'סוג עריכה':     'ארוך',
+        'סוג טריגר':     'telegram'
+      };
+    case 'upload_video':
+      return {
+        'chat id':      info.chatId,
+        'סוג טריגר':     'telegram'
+      };
+    case 'drive_links':
+      return {
+        'chat id':      info.chatId,
+        'client name':  info.clientName
+      };
+    case 'video_transcribe':
+      return {
+        'chat id':      info.chatId,
+        'client name':  info.clientName
+      };
+    case 'settings':
+      return {
+        'chat id':      info.chatId,
+        'client name':  info.clientName
+      };
+    case 'replace_platform':
+      return {
+        'chat id':      info.chatId
+      };
+    case 'competitors_report':
+      return {
+        'chat id':      info.chatId
+      };
+    case 'regular_post':
+    case 'carousal_post':
+    case 'story':
+      // אלו עדיין לא ממופים לוובהוק - יטופלו במסך הבא בעתיד
+      return {
+        'chat id':      info.chatId,
+        'action':       action
+      };
+    default:
+      return { 'chat id': info.chatId };
+  }
+}
+
+// ══════════════════════════════════════
+// SEND VIA POST (with fetch)
+// ══════════════════════════════════════
+function sendViaPost(url, body) {
+  var done = false;
+
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    mode: 'no-cors'
+  })
+  .then(function() {
+    if (done) return;
+    done = true;
+    showState('success');
+  })
+  .catch(function() {
+    if (done) return;
+    done = true;
+    // no-cors תמיד מצליח אבל ייתכן שגיאת רשת אמיתית
+    showState('success');
+  });
+
+  // fallback timer
+  setTimeout(function() {
+    if (!done) {
+      done = true;
+      showState('success');
+    }
+  }, 2000);
+}
+
+// ══════════════════════════════════════
+// SEND VIA IMAGE (GET, bypasses CORS)
+// ══════════════════════════════════════
+function sendViaImage(url, body) {
+  var qs = Object.keys(body).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(body[k]);
+  }).join('&');
+
+  var separator = url.indexOf('?') >= 0 ? '&' : '?';
+  var fullUrl = url + separator + qs;
+
+  var done = false;
+  var img = new Image();
+  img.onload = img.onerror = function() {
+    if (done) return;
+    done = true;
+    showState('success');
+  };
+  img.src = fullUrl;
+
+  setTimeout(function() {
+    if (!done) {
+      done = true;
+      showState('success');
+    }
+  }, 2000);
+}
+
+// ══════════════════════════════════════
+// AI IMAGE SCREEN LOGIC
+// ══════════════════════════════════════
+var aiImageBase64 = '';
+var aiImageFileName = '';
+
+function openAiImageScreen() {
+  if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+  screenStack.push('ai-image');
+  showScreen('ai-image');
+  // איפוס בכל פתיחה
+  document.getElementById('aiPrompt').value = '';
+  removeAiImage();
+  checkAiSubmitButton();
+}
+
+function goBackFromAi() {
+  // איפוס לפני חזרה
+  document.getElementById('aiPrompt').value = '';
+  removeAiImage();
+  goBack();
+}
+
+function checkAiSubmitButton() {
+  var prompt = document.getElementById('aiPrompt').value.trim();
+  var btn = document.getElementById('aiSubmitBtn');
+  btn.disabled = (prompt.length < 3);
+}
+
+function onAiImageUpload(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+
+  // בדיקת גודל - מקסימום 10MB
+  if (file.size > 10 * 1024 * 1024) {
+    alert('התמונה גדולה מדי. גודל מקסימלי: 10MB');
+    return;
+  }
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var dataUrl = e.target.result;
+    aiImageBase64 = dataUrl.split(',')[1] || '';
+    aiImageFileName = file.name;
+
+    // הצגת preview
+    document.getElementById('aiImageImg').src = dataUrl;
+    document.getElementById('aiImageName').textContent = file.name;
+    document.getElementById('aiImagePreview').classList.add('visible');
+    document.getElementById('aiUploadBtn').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeAiImage() {
+  aiImageBase64 = '';
+  aiImageFileName = '';
+  document.getElementById('aiImagePreview').classList.remove('visible');
+  document.getElementById('aiUploadBtn').style.display = 'flex';
+  var input = document.getElementById('aiImageInput');
+  if (input) input.value = '';
+}
+
+function submitAiImage() {
+  var prompt = document.getElementById('aiPrompt').value.trim();
+  if (prompt.length < 3) return;
+
+  if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+  showState('loading');
+
+  var info = getClientInfo();
+  var url = WEBHOOKS.ai_image;
+
+  var body = {
+    caption:      prompt,
+    webhook_url:  AI_IMAGE_INTERNAL_WEBHOOK,
+    'file-id':    aiImageBase64,
+    'telegram-chat-id': info.chatId
+  };
+
+  // שליחה ב-POST
+  var done = false;
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    mode: 'no-cors'
+  })
+  .then(function() {
+    if (done) return;
+    done = true;
+    showState('success');
+  })
+  .catch(function() {
+    if (done) return;
+    done = true;
+    showState('success');
+  });
+
+  // fallback timer ארוך יותר בגלל גודל התמונה
+  setTimeout(function() {
+    if (!done) {
+      done = true;
+      showState('success');
+    }
+  }, 5000);
+}
+</script>
+</body>
+</html>
