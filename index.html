@@ -35,15 +35,9 @@
     min-height: 100vh;
   }
 
-  /* ══════════════════════════════════
-     SCREENS
-  ══════════════════════════════════ */
   .screen { display: none; }
   .screen.active { display: block; }
 
-  /* ══════════════════════════════════
-     HEADER
-  ══════════════════════════════════ */
   .header {
     position: sticky;
     top: 0;
@@ -101,9 +95,6 @@
 
   .back-btn:active { transform: scale(0.96); opacity: 0.85; }
 
-  /* ══════════════════════════════════
-     INTRO
-  ══════════════════════════════════ */
   .intro {
     padding: 22px 18px 8px;
     text-align: center;
@@ -129,9 +120,6 @@
     margin: 0 auto;
   }
 
-  /* ══════════════════════════════════
-     MAIN
-  ══════════════════════════════════ */
   .main {
     padding: 16px 16px 40px;
     display: flex;
@@ -139,9 +127,6 @@
     gap: 12px;
   }
 
-  /* ══════════════════════════════════
-     CATEGORY CARD
-  ══════════════════════════════════ */
   .cat-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -186,10 +171,7 @@
   .cat-icon.purple { background: rgba(124,58,143,0.10); }
   .cat-icon.orange { background: rgba(217,119,39,0.10); }
 
-  .cat-body {
-    flex: 1;
-    min-width: 0;
-  }
+  .cat-body { flex: 1; min-width: 0; }
 
   .cat-title {
     font-size: 15px;
@@ -212,9 +194,6 @@
     line-height: 1;
   }
 
-  /* ══════════════════════════════════
-     SUBMENU
-  ══════════════════════════════════ */
   .submenu-header {
     padding: 18px 18px 4px;
     display: flex;
@@ -238,10 +217,7 @@
   .submenu-icon.purple { background: rgba(124,58,143,0.10); }
   .submenu-icon.orange { background: rgba(217,119,39,0.10); }
 
-  .submenu-titles {
-    flex: 1;
-    min-width: 0;
-  }
+  .submenu-titles { flex: 1; min-width: 0; }
 
   .submenu-title {
     font-size: 17px;
@@ -255,9 +231,6 @@
     margin-top: 2px;
   }
 
-  /* ══════════════════════════════════
-     ITEM (sub-option)
-  ══════════════════════════════════ */
   .item {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -288,10 +261,7 @@
     flex-shrink: 0;
   }
 
-  .item-body {
-    flex: 1;
-    min-width: 0;
-  }
+  .item-body { flex: 1; min-width: 0; }
 
   .item-title {
     font-size: 14px;
@@ -314,9 +284,6 @@
     line-height: 1;
   }
 
-  /* ══════════════════════════════════
-     AI IMAGE SCREEN
-  ══════════════════════════════════ */
   .ai-section {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -405,9 +372,7 @@
     border-color: var(--accent);
   }
 
-  .ai-upload-btn .upload-icon {
-    font-size: 22px;
-  }
+  .ai-upload-btn .upload-icon { font-size: 22px; }
 
   .ai-image-preview {
     display: none;
@@ -482,9 +447,6 @@
     cursor: not-allowed;
   }
 
-  /* ══════════════════════════════════
-     STATES (loading / success)
-  ══════════════════════════════════ */
   .state {
     display: none;
     flex-direction: column;
@@ -536,13 +498,8 @@
     margin-bottom: 18px;
   }
 
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ══════════════════════════════════
-     CATEGORY COLOR ACCENTS
-  ══════════════════════════════════ */
   .accent-blue   .cat-icon, .accent-blue   .submenu-icon { background: var(--accent-soft); }
   .accent-green  .cat-icon, .accent-green  .submenu-icon { background: var(--green-soft); }
   .accent-purple .cat-icon, .accent-purple .submenu-icon { background: rgba(124,58,143,0.10); }
@@ -568,8 +525,6 @@
   </div>
 
   <div class="main">
-
-    <!-- יצירת תוכן -->
     <div class="cat-card accent-blue" onclick="openCategory('content')">
       <div class="cat-icon">✍️</div>
       <div class="cat-body">
@@ -579,7 +534,6 @@
       <div class="cat-arrow">‹</div>
     </div>
 
-    <!-- עריכת וידאו -->
     <div class="cat-card accent-purple" onclick="openCategory('video-edit')">
       <div class="cat-icon purple">🎬</div>
       <div class="cat-body">
@@ -589,7 +543,6 @@
       <div class="cat-arrow">‹</div>
     </div>
 
-    <!-- העלאות -->
     <div class="cat-card accent-green" onclick="openCategory('uploads')">
       <div class="cat-icon green">📤</div>
       <div class="cat-body">
@@ -599,7 +552,6 @@
       <div class="cat-arrow">‹</div>
     </div>
 
-    <!-- כלים ושירותים -->
     <div class="cat-card accent-orange" onclick="openCategory('tools')">
       <div class="cat-icon orange">🛠️</div>
       <div class="cat-body">
@@ -608,13 +560,10 @@
       </div>
       <div class="cat-arrow">‹</div>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: יצירת תוכן
-══════════════════════════════════════ -->
+<!-- SCREEN: יצירת תוכן -->
 <div class="screen" id="screen-content">
   <div class="header">
     <button class="back-btn" onclick="goBack()">› חזרה</button>
@@ -630,7 +579,6 @@
   </div>
 
   <div class="main">
-
     <div class="item" onclick="sendAction('regular_post')">
       <div class="item-emoji">📝</div>
       <div class="item-body">
@@ -666,13 +614,10 @@
       </div>
       <div class="item-arrow">‹</div>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: עריכת וידאו
-══════════════════════════════════════ -->
+<!-- SCREEN: עריכת וידאו -->
 <div class="screen" id="screen-video-edit">
   <div class="header">
     <button class="back-btn" onclick="goBack()">› חזרה</button>
@@ -688,7 +633,6 @@
   </div>
 
   <div class="main">
-
     <div class="item" onclick="sendAction('regular_video_editing')">
       <div class="item-emoji">🎞️</div>
       <div class="item-body">
@@ -706,13 +650,10 @@
       </div>
       <div class="item-arrow">‹</div>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: העלאות
-══════════════════════════════════════ -->
+<!-- SCREEN: העלאות -->
 <div class="screen" id="screen-uploads">
   <div class="header">
     <button class="back-btn" onclick="goBack()">› חזרה</button>
@@ -728,7 +669,6 @@
   </div>
 
   <div class="main">
-
     <div class="item" onclick="sendAction('upload_video')">
       <div class="item-emoji">⬆️</div>
       <div class="item-body">
@@ -746,13 +686,10 @@
       </div>
       <div class="item-arrow">‹</div>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: כלים ושירותים
-══════════════════════════════════════ -->
+<!-- SCREEN: כלים ושירותים -->
 <div class="screen" id="screen-tools">
   <div class="header">
     <button class="back-btn" onclick="goBack()">› חזרה</button>
@@ -768,7 +705,6 @@
   </div>
 
   <div class="main">
-
     <div class="item" onclick="sendAction('video_transcribe')">
       <div class="item-emoji">📝</div>
       <div class="item-body">
@@ -804,13 +740,10 @@
       </div>
       <div class="item-arrow">‹</div>
     </div>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: AI IMAGE
-══════════════════════════════════════ -->
+<!-- SCREEN: AI IMAGE -->
 <div class="screen" id="screen-ai-image">
   <div class="header">
     <button class="back-btn" onclick="goBackFromAi()">› חזרה</button>
@@ -826,8 +759,6 @@
   </div>
 
   <div class="main">
-
-    <!-- Prompt section -->
     <div class="ai-section">
       <div class="ai-label">
         תיאור התמונה
@@ -841,7 +772,6 @@
         oninput="checkAiSubmitButton()"></textarea>
     </div>
 
-    <!-- Reference image section -->
     <div class="ai-section">
       <div class="ai-label">
         תמונת התייחסות
@@ -868,13 +798,10 @@
     <button class="ai-submit-btn" id="aiSubmitBtn" onclick="submitAiImage()" disabled>
       צור תמונה
     </button>
-
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     STATES: loading / success / error
-══════════════════════════════════════ -->
+<!-- STATES -->
 <div class="state" id="loading-state">
   <div class="spinner"></div>
   <div class="state-title">שולח את הבקשה...</div>
@@ -896,19 +823,12 @@
 </div>
 
 <script>
-// ══════════════════════════════════════
-// TELEGRAM
-// ══════════════════════════════════════
 var tg = window.Telegram && window.Telegram.WebApp;
 if (tg) { tg.ready(); tg.expand(); }
 
-// ══════════════════════════════════════
-// CLIENT INFO (from Telegram WebApp SDK)
-// ══════════════════════════════════════
 function getClientInfo() {
   var info = { chatId: '', clientName: '' };
 
-  // ניסיון לקבל מ-Telegram WebApp SDK
   if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
     var user = tg.initDataUnsafe.user;
     info.chatId = String(user.id || '');
@@ -917,7 +837,6 @@ function getClientInfo() {
     info.clientName = (firstName + ' ' + lastName).trim();
   }
 
-  // fallback - ניסיון מ-URL params
   var params = new URLSearchParams(window.location.search);
   if (!info.chatId) info.chatId = params.get('chatId') || '';
   if (!info.clientName) info.clientName = params.get('clientName') || '';
@@ -925,9 +844,6 @@ function getClientInfo() {
   return info;
 }
 
-// ══════════════════════════════════════
-// WEBHOOK URLs
-// ══════════════════════════════════════
 var WEBHOOKS = {
   regular_video_editing:  'https://aiagentsforsale.app.n8n.cloud/webhook/7d4d5731-f64f-4d47-a1a7-5eea656c3a9c',
   long_video_editing:     'https://aiagentsforsale.app.n8n.cloud/webhook/3bd67ff8-7183-45c8-9255-a29a6faa3f82',
@@ -942,9 +858,6 @@ var WEBHOOKS = {
 
 var AI_IMAGE_INTERNAL_WEBHOOK = 'https://aiagentsforsale.app.n8n.cloud/webhook/686ac9bf-4011-447c-8288-d477d60e7dab';
 
-// ══════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════
 var screenStack = ['main'];
 
 function showScreen(name) {
@@ -979,9 +892,6 @@ function goBack() {
   }
 }
 
-// ══════════════════════════════════════
-// SEND ACTION (regular actions, not AI image)
-// ══════════════════════════════════════
 function sendAction(action) {
   if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
   showState('loading');
@@ -995,14 +905,7 @@ function sendAction(action) {
   var info = getClientInfo();
   var body = buildBodyForAction(action, info);
 
-  // שליחה כ-POST (כל הוובהוקים POST חוץ מ-replace_platform ו-competitors_report שהם GET)
-  var method = (action === 'replace_platform' || action === 'competitors_report') ? 'GET' : 'POST';
-
-  if (method === 'GET') {
-    sendViaImage(url, body);
-  } else {
-    sendViaPost(url, body);
-  }
+  sendViaFormData(url, body);
 }
 
 function buildBodyForAction(action, info) {
@@ -1050,7 +953,6 @@ function buildBodyForAction(action, info) {
     case 'regular_post':
     case 'carousal_post':
     case 'story':
-      // אלו עדיין לא ממופים לוובהוק - יטופלו במסך הבא בעתיד
       return {
         'chat id':      info.chatId,
         'action':       action
@@ -1060,16 +962,20 @@ function buildBodyForAction(action, info) {
   }
 }
 
-// ══════════════════════════════════════
-// SEND VIA POST (with fetch)
-// ══════════════════════════════════════
-function sendViaPost(url, body) {
+// שליחה דרך FormData (multipart/form-data)
+// ברגע ש-fetch שולח FormData עם no-cors, הדפדפן מגדיר Content-Type ל-multipart/form-data
+// ו-n8n מפרסר את השדות ישירות לתוך $json.body כשדות נפרדים
+function sendViaFormData(url, body) {
+  var formData = new FormData();
+  Object.keys(body).forEach(function(key) {
+    formData.append(key, body[key]);
+  });
+
   var done = false;
 
   fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: formData,
     mode: 'no-cors'
   })
   .then(function() {
@@ -1080,11 +986,9 @@ function sendViaPost(url, body) {
   .catch(function() {
     if (done) return;
     done = true;
-    // no-cors תמיד מצליח אבל ייתכן שגיאת רשת אמיתית
     showState('success');
   });
 
-  // fallback timer
   setTimeout(function() {
     if (!done) {
       done = true;
@@ -1093,52 +997,20 @@ function sendViaPost(url, body) {
   }, 2000);
 }
 
-// ══════════════════════════════════════
-// SEND VIA IMAGE (GET, bypasses CORS)
-// ══════════════════════════════════════
-function sendViaImage(url, body) {
-  var qs = Object.keys(body).map(function(k) {
-    return encodeURIComponent(k) + '=' + encodeURIComponent(body[k]);
-  }).join('&');
-
-  var separator = url.indexOf('?') >= 0 ? '&' : '?';
-  var fullUrl = url + separator + qs;
-
-  var done = false;
-  var img = new Image();
-  img.onload = img.onerror = function() {
-    if (done) return;
-    done = true;
-    showState('success');
-  };
-  img.src = fullUrl;
-
-  setTimeout(function() {
-    if (!done) {
-      done = true;
-      showState('success');
-    }
-  }, 2000);
-}
-
-// ══════════════════════════════════════
-// AI IMAGE SCREEN LOGIC
-// ══════════════════════════════════════
-var aiImageBase64 = '';
+// AI IMAGE LOGIC
+var aiImageFile = null;
 var aiImageFileName = '';
 
 function openAiImageScreen() {
   if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
   screenStack.push('ai-image');
   showScreen('ai-image');
-  // איפוס בכל פתיחה
   document.getElementById('aiPrompt').value = '';
   removeAiImage();
   checkAiSubmitButton();
 }
 
 function goBackFromAi() {
-  // איפוס לפני חזרה
   document.getElementById('aiPrompt').value = '';
   removeAiImage();
   goBack();
@@ -1154,19 +1026,17 @@ function onAiImageUpload(event) {
   var file = event.target.files[0];
   if (!file) return;
 
-  // בדיקת גודל - מקסימום 10MB
   if (file.size > 10 * 1024 * 1024) {
     alert('התמונה גדולה מדי. גודל מקסימלי: 10MB');
     return;
   }
 
+  aiImageFile = file;
+  aiImageFileName = file.name;
+
   var reader = new FileReader();
   reader.onload = function(e) {
     var dataUrl = e.target.result;
-    aiImageBase64 = dataUrl.split(',')[1] || '';
-    aiImageFileName = file.name;
-
-    // הצגת preview
     document.getElementById('aiImageImg').src = dataUrl;
     document.getElementById('aiImageName').textContent = file.name;
     document.getElementById('aiImagePreview').classList.add('visible');
@@ -1176,7 +1046,7 @@ function onAiImageUpload(event) {
 }
 
 function removeAiImage() {
-  aiImageBase64 = '';
+  aiImageFile = null;
   aiImageFileName = '';
   document.getElementById('aiImagePreview').classList.remove('visible');
   document.getElementById('aiUploadBtn').style.display = 'flex';
@@ -1194,19 +1064,23 @@ function submitAiImage() {
   var info = getClientInfo();
   var url = WEBHOOKS.ai_image;
 
-  var body = {
-    caption:      prompt,
-    webhook_url:  AI_IMAGE_INTERNAL_WEBHOOK,
-    'file-id':    aiImageBase64,
-    'telegram-chat-id': info.chatId
-  };
+  // שליחה ב-FormData - כל השדות יגיעו מובנים ב-$json.body
+  // התמונה תגיע כקובץ אמיתי שניתן לעבד ב-n8n
+  var formData = new FormData();
+  formData.append('caption', prompt);
+  formData.append('webhook_url', AI_IMAGE_INTERNAL_WEBHOOK);
+  formData.append('telegram-chat-id', info.chatId);
 
-  // שליחה ב-POST
+  if (aiImageFile) {
+    formData.append('file-id', aiImageFile, aiImageFileName);
+  } else {
+    formData.append('file-id', '');
+  }
+
   var done = false;
   fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: formData,
     mode: 'no-cors'
   })
   .then(function() {
@@ -1220,7 +1094,6 @@ function submitAiImage() {
     showState('success');
   });
 
-  // fallback timer ארוך יותר בגלל גודל התמונה
   setTimeout(function() {
     if (!done) {
       done = true;
